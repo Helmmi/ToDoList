@@ -48,9 +48,7 @@ function App() {
       <h1 className="title">To Do List</h1>
       <div>
         {alert && <Alert text={alert.text} color={alert.color} />}
-        {/*<button>Tout</button>
-        <button>finished</button>
-        <button>In Progress</button>*/}
+        
         <input
           type="text"
           ref={inputRef}
