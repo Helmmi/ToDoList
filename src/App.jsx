@@ -3,7 +3,10 @@ import './App.css'
 import Alert from './components/Alert'
 
 function App() {
-  const [list,setList] = useState([])
+  const [list, setList] = useState(() => {
+    const storedList = localStorage.getItem("todoList");
+    return storedList ? JSON.parse(storedList) : [];
+  });
   const inputRef = useRef("")
   const [alert,setAlert] = useState(null)
   const showAlert = (text,color) => {
@@ -15,7 +18,7 @@ function App() {
     if(newItem.text.length !== 0){
       setList([...list,newItem])
     inputRef.current.value=""
-    showAlert('${newItem.text}', "blue");
+    showAlert(newItem.text, "blue");
     }else{
       showAlert('', "yellow");
     }
@@ -31,7 +34,7 @@ function App() {
     inputRef.current.value = oldText.text
     const updatedList = list.filter((_, index) => index !== indexToEdit);
     setList(updatedList);
-    showAlert(oldText, "green");
+    showAlert(oldText.text, "green");
 
   }
   const handleClick= (index) => {
@@ -40,7 +43,10 @@ function App() {
     );
     setList(updatedList);
   };
-  
+  useEffect(() => {
+    localStorage.setItem("todoList", JSON.stringify(list));
+  }, [list]);
+
   
 
   return (
@@ -86,7 +92,7 @@ function App() {
                 Delete
               </button>
             </li>
-          ))}
+))}
         </ul>
       </div>
     </>
